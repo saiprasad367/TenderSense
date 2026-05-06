@@ -51,3 +51,6 @@ sentence-transformers
 
 # Language & Localisation
 langdetect>=1.0.9
+
+# Validation
+email-validator
