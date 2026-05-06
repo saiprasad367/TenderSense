@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* TenderSense AI — Government-grade enterprise design system.
+   All colors MUST be HSL. No gradients. White-first, structured, calm.
+*/
+
+@layer base {
+  :root {
+    /* Surfaces */
+    --background: 0 0% 100%;            /* #FFFFFF */
+    --surface: 0 0% 96.1%;              /* #F5F5F5 secondary bg */
+    --card: 0 0% 98%;                   /* #FAFAFA cards */
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+
+    /* Text */
+    --foreground: 0 0% 0%;              /* pure black for text only */
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 220 9% 46%;     /* #6B7280 */
+
+    /* Brand-ish accent (used very minimally) */
+    --primary: 0 0% 0%;                 /* black for buttons text */
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 0%;
+    --accent: 220 9% 46%;               /* muted blue-gray */
+    --accent-foreground: 0 0% 100%;
+
+    /* Borders & inputs */
+    --border: 220 13% 91%;              /* #E5E7EB */
+    --input: 220 13% 91%;
+    --ring: 0 0% 0%;
+
+    /* Status (soft, government) */
+    --status-success: 152 35% 38%;
+    --status-success-bg: 152 40% 94%;
+    --status-warning: 38 60% 42%;
+    --status-warning-bg: 40 80% 94%;
+    --status-danger: 0 55% 45%;
+    --status-danger-bg: 0 70% 96%;
+    --status-info: 215 35% 42%;
+    --status-info-bg: 215 50% 95%;
+    --status-neutral: 220 9% 46%;
+    --status-neutral-bg: 0 0% 96.1%;
+
+    --destructive: 0 55% 45%;
+    --destructive-foreground: 0 0% 100%;
+
+    --radius: 0.5rem;
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 0%;
+    --sidebar-primary: 0 0% 0%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 96.1%;
+    --sidebar-accent-foreground: 0 0% 0%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 0 0% 0%;
+
+    /* Shadows — subtle */
+    --shadow-card: 0 1px 2px 0 hsl(0 0% 0% / 0.04), 0 1px 3px 0 hsl(0 0% 0% / 0.04);
+    --shadow-elevated: 0 4px 12px -2px hsl(0 0% 0% / 0.06), 0 2px 6px -1px hsl(0 0% 0% / 0.04);
+  }
+
+  .dark {
+    /* Keeping dark identical-ish (not a priority feature) */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html, body, #root {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  .ts-card {
+    @apply bg-card border border-border rounded-md;
+    box-shadow: var(--shadow-card);
+  }
+  .ts-card-elevated {
+    @apply bg-card border border-border rounded-md;
+    box-shadow: var(--shadow-elevated);
+  }
+  .ts-section-title {
+    @apply text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground;
+  }
+  .ts-mono {
+    font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background: hsl(var(--border)); border-radius: 3px; }
+}
