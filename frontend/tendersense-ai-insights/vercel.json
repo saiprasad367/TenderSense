@@ -1,8 +1,9 @@
 {
   "framework": "vite",
   "env": {
-    "NODE_OPTIONS": "--max-old-space-size=4096",
-    "VITE_API_URL": "https://tendersense.onrender.com"
+    "NODE_OPTIONS": "--max-old-space-size=3072",
+    "VITE_API_URL": "https://tendersense.onrender.com",
+    "GENERATE_SOURCEMAP": "false"
   },
   "buildCommand": "npm run build",
   "outputDirectory": "dist"
