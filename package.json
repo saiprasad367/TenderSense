@@ -1,9 +1,11 @@
 {
   "name": "tendersense-monorepo",
   "private": true,
+  "workspaces": [
+    "frontend/tendersense-ai-insights"
+  ],
   "scripts": {
-    "build": "npm run build --prefix frontend/tendersense-ai-insights",
-    "install": "npm install --prefix frontend/tendersense-ai-insights",
-    "start": "npm start --prefix frontend/tendersense-ai-insights"
+    "build": "npm run build --workspace=vite_react_shadcn_ts",
+    "start": "npm start --workspace=vite_react_shadcn_ts"
   }
 }
