@@ -22,7 +22,7 @@ const AGENT_META: Record<string, { name: string; role: string }> = {
 type AgentState = { status: "Idle" | "Running" | "Done" | "Error"; progress: number; output: string };
 
 export default function Evaluation() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const tenderId = searchParams.get("tender_id");
 
   const [agentStates, setAgentStates] = useState<Record<string, AgentState>>(
@@ -34,12 +34,56 @@ export default function Evaluation() {
   const [error, setError] = useState<string | null>(null);
   const [results, setResults] = useState<BidderEval[]>([]);
   const [activeResult, setActiveResult] = useState<string | null>(null);
+  const [hasBidders, setHasBidders] = useState<boolean | null>(null);
+  const [checkingBidders, setCheckingBidders] = useState(false);
+  const [tenders, setTenders] = useState<Tender[]>([]);
+  const [loadingTenders, setLoadingTenders] = useState(false);
   const logsRef = useRef<HTMLDivElement>(null);
   const stopRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     if (logsRef.current) logsRef.current.scrollTop = logsRef.current.scrollHeight;
   }, [logs]);
+
+  useEffect(() => {
+    const fetchTenders = async () => {
+      setLoadingTenders(true);
+      try {
+        const res = await listTenders();
+        setTenders(res.tenders);
+      } catch (e) {
+        console.error("Failed to fetch tenders:", e);
+      } finally {
+        setLoadingTenders(false);
+      }
+    };
+    fetchTenders();
+  }, []);
+
+  useEffect(() => {
+    const checkBidders = async () => {
+      if (!tenderId) {
+        setHasBidders(null);
+        setResults([]);
+        return;
+      }
+      setCheckingBidders(true);
+      try {
+        const res = await getEvaluationResults(tenderId);
+        setHasBidders(res.total_bidders > 0);
+        setResults(res.results);
+      } catch (e) {
+        setHasBidders(false);
+      } finally {
+        setCheckingBidders(false);
+      }
+    };
+    checkBidders();
+    // Reset states when tender changes
+    setCompleted(false);
+    setLogs([]);
+    setAgentStates(Object.fromEntries(AGENT_KEYS.map((k) => [k, { status: "Idle", progress: 0, output: "Waiting…" }])));
+  }, [tenderId]);
 
   const startEvaluation = () => {
     if (!tenderId) {
@@ -113,7 +157,28 @@ export default function Evaluation() {
   return (
     <div className="mx-auto max-w-[1400px]">
       <PageHeader
-        eyebrow={tenderId ?? "No tender selected"}
+        eyebrow={
+          <div className="flex items-center gap-2">
+            <span className="text-muted-foreground">Select Tender:</span>
+            <select
+              value={tenderId || ""}
+              onChange={(e) => {
+                const val = e.target.value;
+                if (val) setSearchParams({ tender_id: val });
+              }}
+              className="bg-transparent border-none text-foreground font-medium focus:ring-0 cursor-pointer p-0 pr-6 text-xs uppercase tracking-wider"
+              disabled={running}
+            >
+              <option value="" disabled>Choose a tender...</option>
+              {tenders.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.tender_number} — {t.title.slice(0, 40)}...
+                </option>
+              ))}
+            </select>
+            {loadingTenders && <Loader2 className="h-3 w-3 animate-spin" />}
+          </div>
+        }
         title="Live multi-agent evaluation"
         description="Real-time Claude Sonnet 4 evaluation with 5 specialist agents"
         actions={
@@ -121,10 +186,18 @@ export default function Evaluation() {
             {!running && !completed && (
               <button
                 onClick={startEvaluation}
-                disabled={!tenderId}
+                disabled={!tenderId || checkingBidders || hasBidders === false}
                 className="inline-flex items-center gap-1.5 rounded-sm bg-foreground px-3.5 py-2 text-xs font-medium text-background hover:bg-foreground/90 disabled:opacity-50"
               >
-                {tenderId ? "Run Evaluation" : "Upload tender first"}
+                {checkingBidders ? (
+                  <><Loader2 className="h-3 w-3 animate-spin" /> Checking...</>
+                ) : !tenderId ? (
+                  "Upload tender first"
+                ) : hasBidders === false ? (
+                  "No bidders found"
+                ) : (
+                  "Run Evaluation"
+                )}
               </button>
             )}
             {running && (

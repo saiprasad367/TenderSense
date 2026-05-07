@@ -233,7 +233,10 @@ export function streamEvaluation(
         signal: controller.signal,
       });
 
-      if (!res.ok) throw new Error(`Evaluation failed: ${res.statusText}`);
+      if (!res.ok) {
+        const errData = await res.json().catch(() => ({ detail: res.statusText }));
+        throw new Error(errData.detail || `Evaluation failed: ${res.statusText}`);
+      }
       const reader = res.body?.getReader();
       if (!reader) throw new Error("No response body");
       const decoder = new TextDecoder();
