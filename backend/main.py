@@ -89,8 +89,7 @@ async def warmup_vector_store():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("🚀 TenderSense AI backend starting up …")
-    # Bind port immediately, warm up in background
-    asyncio.create_task(warmup_vector_store())
+    # Background warmup disabled for troubleshooting
     yield
     logger.info("🛑 TenderSense AI backend shutting down")
 
@@ -125,6 +124,11 @@ app.include_router(audit.router, prefix="/api/audit", tags=["Audit"])
 app.include_router(reports.router, prefix="/api/reports", tags=["Reports"])
 app.include_router(analytics.router, prefix="/api/analytics", tags=["Analytics"])
 app.include_router(auth.router, prefix="/api/auth", tags=["Auth"])
+
+
+@app.get("/")
+async def root():
+    return {"status": "TenderSense AI Backend is Live", "version": "1.0.0"}
 
 
 # ── health ────────────────────────────────────────────────────────────────────
