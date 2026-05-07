@@ -14,6 +14,9 @@ import sys
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator, List, Optional
 
+import os
+os.environ["ANONYMIZED_TELEMETRY"] = "False"
+
 from dotenv import load_dotenv
 load_dotenv()
 

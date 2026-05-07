@@ -34,7 +34,8 @@ class VectorStore:
             settings=Settings(anonymized_telemetry=False)
         )
         self._ef = SentenceTransformerEmbeddingFunction(
-            model_name="all-MiniLM-L6-v2"
+            model_name="all-MiniLM-L6-v2",
+            device="cpu"
         )
         logger.info(f"ChromaDB initialized at {CHROMA_DIR}")
 
