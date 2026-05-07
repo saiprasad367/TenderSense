@@ -1,6 +1,0 @@
-{
-  "framework": "vite",
-  "buildCommand": "cd frontend/tendersense-ai-insights && npm install && npm run build",
-  "outputDirectory": "frontend/tendersense-ai-insights/dist",
-  "installCommand": "cd frontend/tendersense-ai-insights && npm install"
-}

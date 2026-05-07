@@ -16,6 +16,14 @@ from typing import AsyncGenerator, List, Optional
 
 import os
 os.environ["ANONYMIZED_TELEMETRY"] = "False"
+os.environ["CHROMA_TELEMETRY_OFF"] = "True"
+
+# Monkey-patch posthog to prevent telemetry errors in older ChromaDB versions
+try:
+    import posthog
+    posthog.capture = lambda *args, **kwargs: None
+except ImportError:
+    pass
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -68,17 +76,21 @@ settings = Settings()
 
 
 # ── lifespan ───────────────────────────────────────────────────────────────────
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    logger.info("🚀 TenderSense AI backend starting up …")
-    # Warm up ChromaDB collection
+async def warmup_vector_store():
+    """Warm up ChromaDB in the background to avoid blocking port binding."""
     try:
         from utils.vector_store import VectorStore
         vs = VectorStore()
         await vs.health_check()
         logger.info("✅ ChromaDB ready")
     except Exception as e:
-        logger.warning(f"⚠️  ChromaDB not available: {e}")
+        logger.warning(f"⚠️  ChromaDB warmup failed: {e}")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("🚀 TenderSense AI backend starting up …")
+    # Bind port immediately, warm up in background
+    asyncio.create_task(warmup_vector_store())
     yield
     logger.info("🛑 TenderSense AI backend shutting down")
 

@@ -1,0 +1,9 @@
+{
+  "name": "tendersense-monorepo",
+  "private": true,
+  "scripts": {
+    "build": "npm run build --prefix frontend/tendersense-ai-insights",
+    "install": "npm install --prefix frontend/tendersense-ai-insights",
+    "start": "npm start --prefix frontend/tendersense-ai-insights"
+  }
+}
