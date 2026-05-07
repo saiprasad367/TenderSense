@@ -26,11 +26,15 @@ class VectorStore:
         if self._client is not None:
             return
         import chromadb
+        from chromadb.config import Settings
         from chromadb.utils.embedding_functions import SentenceTransformerEmbeddingFunction
 
-        self._client = chromadb.PersistentClient(path=CHROMA_DIR)
+        self._client = chromadb.PersistentClient(
+            path=CHROMA_DIR,
+            settings=Settings(anonymized_telemetry=False)
+        )
         self._ef = SentenceTransformerEmbeddingFunction(
-            model_name="sentence-transformers/paraphrase-multilingual-mpnet-base-v2"
+            model_name="all-MiniLM-L6-v2"
         )
         logger.info(f"ChromaDB initialized at {CHROMA_DIR}")
 
