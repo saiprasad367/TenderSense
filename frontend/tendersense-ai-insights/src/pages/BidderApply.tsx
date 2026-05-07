@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { getTender, uploadBidder, type Tender } from '../lib/api';
+import { useAuth } from '@/contexts/AuthContext';
+import { getTender, uploadBidder, type Tender } from '@/lib/api';
 import { motion } from 'framer-motion';
 import { PageHeader } from '@/components/PageHeader';
 import { UploadCloud, FileText, CheckCircle2, ChevronLeft, Building2, Loader2 } from 'lucide-react';

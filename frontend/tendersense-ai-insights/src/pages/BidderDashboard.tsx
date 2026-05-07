@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
-import { listTenders, type Tender } from '../lib/api';
-import { api } from '../lib/api';
+import { useAuth } from '@/contexts/AuthContext';
+import { listTenders, type Tender } from '@/lib/api';
+import { api } from '@/lib/api';
 import { motion } from 'framer-motion';
 import { PageHeader } from '@/components/PageHeader';
 import { StatusBadge } from '@/components/StatusBadge';
