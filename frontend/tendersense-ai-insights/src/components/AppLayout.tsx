@@ -1,7 +1,7 @@
 import { Outlet, useLocation } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { AppSidebar } from "./AppSidebar";
-import { AppHeader } from "./AppHeader";
+import { AppSidebar } from "@/components/AppSidebar";
+import { AppHeader } from "@/components/AppHeader";
 import { AnimatePresence, motion } from "framer-motion";
 
 export default function AppLayout() {

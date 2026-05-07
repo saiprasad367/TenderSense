@@ -5,17 +5,17 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
 import AppLayout from "@/components/AppLayout";
-import Dashboard from "./pages/Dashboard";
-import UploadScreen from "./pages/Upload";
-import Evaluation from "./pages/Evaluation";
-import Review from "./pages/Review";
-import Audit from "./pages/Audit";
-import Reports from "./pages/Reports";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import BidderDashboard from "./pages/BidderDashboard";
-import BidderApply from "./pages/BidderApply";
-import NotFound from "./pages/NotFound";
+import Dashboard from "@/pages/Dashboard";
+import UploadScreen from "@/pages/Upload";
+import Evaluation from "@/pages/Evaluation";
+import Review from "@/pages/Review";
+import Audit from "@/pages/Audit";
+import Reports from "@/pages/Reports";
+import Login from "@/pages/Login";
+import Register from "@/pages/Register";
+import BidderDashboard from "@/pages/BidderDashboard";
+import BidderApply from "@/pages/BidderApply";
+import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
 
