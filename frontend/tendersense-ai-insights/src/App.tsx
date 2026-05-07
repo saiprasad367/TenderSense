@@ -15,7 +15,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import BidderDashboard from "./pages/BidderDashboard";
 import BidderApply from "./pages/BidderApply";
-import NotFound from "./pages/NotFound.tsx";
+import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
