@@ -4,7 +4,8 @@
  */
 import { supabase } from "@/lib/supabase";
 
-const API_BASE = import.meta.env.VITE_API_URL || "https://tendersense.onrender.com";
+// FORCE Production URL for deployment stability
+const API_BASE = "https://tendersense.onrender.com";
 
 // ── Auth helpers ─────────────────────────────────────────────────────────────
 
