@@ -26,6 +26,7 @@ async function apiFetch<T>(path: string, options: RequestInit = {}): Promise<T> 
   const res = await fetch(`${API_BASE}${apiPath}`, {
     ...options,
     headers: {
+      "Accept": "application/json",
       ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...headers,
       ...(options.headers ?? {}),

@@ -68,7 +68,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         .from('users')
         .select('role, department')
         .eq('id', currentUser.id)
-        .single();
+        .maybeSingle();
       
       if (error) {
         console.warn('Profile sync in progress or inaccessible:', error.message);
